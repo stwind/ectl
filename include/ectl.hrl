@@ -2,3 +2,5 @@
         fun(Opts) -> Next(Target, Opts) end)).
 
 -define(CONSOLE(Fmt, Arg), io:format(Fmt, Arg)).
+
+-define(ABORT(Str, Args), ectl:abort(Str, Args)).

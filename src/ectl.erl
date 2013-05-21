@@ -7,6 +7,8 @@
 -export([usage/2]).
 -export([opt/2]).
 -export([opt/3]).
+-export([abort/0]).
+-export([abort/2]).
 
 -include("ectl.hrl").
 
@@ -59,6 +61,13 @@ opt(Key, Opts, Default) ->
         false -> Default;
         {Key, Value} -> Value
     end.
+
+abort() ->
+    throw(yuniocli_abort).
+
+abort(String, Args) ->
+    ?CONSOLE(String, Args),
+    abort().
 
 %% ===================================================================
 %% Private
