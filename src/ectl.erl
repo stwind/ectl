@@ -56,7 +56,7 @@ usage(Spec, {Cmd, Args, SubCmds}) ->
 opt(Key, Opts) ->
     opt(Key, Opts, undefined).
 
-opt(Key, Opts, Default) ->
+opt(Key, {Opts, _}, Default) ->
     case lists:keyfind(Key, 1, Opts) of
         false -> Default;
         {Key, Value} -> Value
