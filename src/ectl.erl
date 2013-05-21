@@ -32,7 +32,7 @@ run(Mod, Targets, Args, Spec, Cmdline) ->
         {error, nofile} -> 
             usage(Spec, Cmdline);
         {module, Mod} ->
-            case erlang:function_exported(Mod, run, 3) of
+            case erlang:function_exported(Mod, run, 2) of
                 true ->
                     Mod:run(Targets, Args);
                 false ->
