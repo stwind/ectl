@@ -83,7 +83,7 @@ cmd_mod(Prefix, Name) ->
 targets([], Cmds) ->
     {lists:reverse(Cmds), []};
 targets(["-" ++ _ | _] = Args, Cmds) ->
-    {Cmds, Args};
+    {lists:reverse(Cmds), Args};
 targets([Cmd | Rest], Cmds) ->
     targets(Rest, [Cmd | Cmds]).
 
