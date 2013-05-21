@@ -4,3 +4,4 @@
 -define(CONSOLE(Fmt, Arg), io:format(Fmt, Arg)).
 
 -define(ABORT(Str, Args), ectl:abort(Str, Args)).
+-define(HALT(Str, Args), ectl:exit(Str, Args)).

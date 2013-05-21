@@ -9,6 +9,8 @@
 -export([opt/3]).
 -export([abort/0]).
 -export([abort/2]).
+-export([halt/2]).
+-export([halt/3]).
 
 -include("ectl.hrl").
 
@@ -68,6 +70,13 @@ abort() ->
 abort(String, Args) ->
     ?CONSOLE(String, Args),
     abort().
+
+halt(String, Args) ->
+    ?MODULE:halt(String, Args, 1).
+
+halt(String, Args, Code) ->
+    ?CONSOLE(String, Args),
+    halt(Code).
 
 %% ===================================================================
 %% Private
