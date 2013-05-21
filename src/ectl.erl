@@ -34,7 +34,7 @@ run(Mod, Targets, Args, Spec, Cmdline) ->
         {module, Mod} ->
             case erlang:function_exported(Mod, run, 3) of
                 true ->
-                    apply(Mod, run, [Targets, Args, Spec]);
+                    Mod:run(Targets, Args);
                 false ->
                     usage(Spec, Cmdline)
             end
