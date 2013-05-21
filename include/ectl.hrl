@@ -1,4 +1,4 @@
--define(with(Spec, Target, Args, Next), ectl:with(Spec, cmdline(), Args, 
+-define(with(Spec, CmdLine, Target, Args, Next), ectl:with(Spec, CmdLine, Args, 
         fun(Opts) -> Next(Target, Opts) end)).
 
 -define(CONSOLE(Fmt, Arg), io:format(Fmt, Arg)).
