@@ -5,6 +5,8 @@
 -export([run/5]).
 -export([with/4]).
 -export([usage/2]).
+-export([opt/2]).
+-export([opt/3]).
 
 -include("ectl.hrl").
 
@@ -48,6 +50,15 @@ usage(Spec, {Cmd, Args, SubCmds}) ->
     usage_cmd_line(Cmd, Args),
     usage_subcmds(SubCmds),
     usage_spec(Spec).
+
+opt(Key, Opts) ->
+    opt(Key, Opts, undefined).
+
+opt(Key, Opts, Default) ->
+    case lists:keyfind(Key, 1, Opts) of
+        false -> Default;
+        {Key, Value} -> Value
+    end.
 
 %% ===================================================================
 %% Private
