@@ -7,10 +7,12 @@
 -export([usage/2]).
 -export([opt/2]).
 -export([opt/3]).
+-export([set/3]).
 -export([abort/0]).
 -export([abort/2]).
 -export([halt/2]).
 -export([halt/3]).
+-export([consult/3]).
 
 -include("ectl.hrl").
 
@@ -42,8 +44,8 @@ run(Mod, Targets, Args, Spec, Cmdline) ->
 
 with(Spec, Cmdline, Args, After) ->
     case getopt:parse(lists:usort(Spec), Args) of
-        {ok, Results} ->
-            After(Results);
+        {ok, {Opts, _}} ->
+            After(Opts);
         {error, Error} ->
             ?CONSOLE("Invalid option sequence given: ~w~n", [Error]),
             usage(Spec, Cmdline)
@@ -58,14 +60,32 @@ usage(Spec, {Cmd, Args, SubCmds}) ->
 opt(Key, Opts) ->
     opt(Key, Opts, undefined).
 
-opt(Key, {Opts, _}, Default) ->
+opt(Key, Opts, Default) ->
     case lists:keyfind(Key, 1, Opts) of
         false -> Default;
         {Key, Value} -> Value
     end.
 
+set(Key, Val, Opts) ->
+    [{Key, Val} | proplists:delete(Key, Opts)].
+
+consult(Key, Opts, DefaultFile) ->
+    ConfigFile = opt(Key, Opts, DefaultFile),
+    Opts1 = case filelib:is_regular(ConfigFile) of
+        true ->
+            case file:consult(ConfigFile) of
+                {ok, Terms} ->
+                    Terms;
+                Other ->
+                    abort("Failed to load ~s: ~p\n", [ConfigFile, Other])
+            end;
+        false ->
+            []
+    end,
+    lists:foldl(fun({K, V}, Acc) -> ?MODULE:set(K, V, Acc) end, Opts, Opts1).
+
 abort() ->
-    throw(yuniocli_abort).
+    throw(ectl_abort).
 
 abort(String, Args) ->
     ?CONSOLE(String, Args),
