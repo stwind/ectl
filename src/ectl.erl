@@ -82,7 +82,7 @@ consult(Key, Opts, DefaultFile) ->
         false ->
             []
     end,
-    lists:foldl(fun({K, V}, Acc) -> ?MODULE:set(K, V, Acc) end, Opts, Opts1).
+    lists:foldl(fun({K, V}, Acc) -> maybe_set(K, V, Acc) end, Opts, Opts1).
 
 abort() ->
     throw(ectl_abort).
@@ -101,6 +101,14 @@ halt(String, Args, Code) ->
 %% ===================================================================
 %% Private
 %% ===================================================================
+
+maybe_set(Key, Val, Opts) ->
+    case opt(Key, Opts) of
+        undefined ->
+            set(Key, Val, Opts);
+        _ ->
+            Opts
+    end.
 
 cmd_mod(Name) ->
     {ok, Prefix} = application:get_env(ectl, cmd_mod_prefix),
