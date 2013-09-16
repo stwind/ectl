@@ -1,9 +1,9 @@
 ectl -- Erlang Controller
 =================
 
-`ectl` is an escript command-line wrapper for some useful debugging and profiling tools to for erlang VM.
+`ectl` is an escript command-line wrapper for some useful debugging and profiling tools for erlang VM.
 
-Currently supported [redbug](https://github.com/massemanet/eper).
+Currently supported [redbug](https://github.com/basho/eper).
 
 ```bash
 $ ./ectl
@@ -35,7 +35,7 @@ then you will have an executable `ectl` script in the folder.
 
 ### Redbug
 
-[redbug](https://github.com/massemanet/eper) is similar to the OTP dbg application, but safer, better etc. `ectl` wrap this great tool in a nicer cli interface.
+[redbug](https://github.com/basho/eper) is similar to the OTP dbg application, but safer, better etc. `ectl` wraps this great tool in a nicer cli interface.
 
 ```bash
 $ ./ectl redbug
