@@ -1,14 +1,15 @@
 %% -*- mode: erlang -*-
 %% ex: ft=erlang ts=2 sw=2 et
 {application, ectl,
-  [
-    {description, ""},
-    {vsn, "0.0.1"},
-    {registered, []},
-    {applications, [
-        kernel,
-        stdlib
-      ]},
-    %{mod, { ectl_app, []}},
-    {env, []}
-  ]}.
+ [
+  {description, ""},
+  {vsn, git},
+  {registered, []},
+  {applications, 
+   [
+    kernel,
+    stdlib
+   ]},
+  {mod, { ectl_app, []}},
+  {env, []}
+ ]}.
