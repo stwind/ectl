@@ -35,7 +35,7 @@ then you will have an executable `ectl` script in the folder.
 
 ### Redbug
 
-[redbug](https://github.com/massemanet/eper) is similar to the OTP dbg application, but safer, better etc. `ectl` wrap this great tool in a nicer cli interface.
+[redbug](https://github.com/massemanet/eper) is similar to the OTP dbg application, but safer, better etc. `ectl` wraps this great tool in a nicer cli interface.
 
 ```bash
 $ ./ectl redbug
