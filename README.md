@@ -1,7 +1,7 @@
 ectl -- Erlang Controller
 =================
 
-`ectl` is an escript command-line wrapper for some useful debugging and profiling tools to for erlang VM.
+`ectl` is an escript command-line wrapper for some useful debugging and profiling tools for erlang VM.
 
 Currently supported [redbug](https://github.com/massemanet/eper).
 
