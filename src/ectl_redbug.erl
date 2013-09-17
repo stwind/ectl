@@ -17,7 +17,7 @@ run(Opts) ->
                      {proc, proc(Opts)},
                      {time, ecli:opt(time, Opts)},
                      {msgs, ecli:opt(msgs, Opts)},
-                     {target, target(Opts)}
+                     {target, Target}
                     ]
                    )).
 
@@ -54,10 +54,11 @@ target(Opts) ->
     list_to_atom(ecli:binding(node, Opts)).
 
 redbug_start(Trc, Props) ->
-    spawn(fun() ->
-                  redbug:start(Trc, Props),
-                  link(whereis(redbug)),
-                  receive
-                      done -> ok
-                  end
-          end).
+    spawn(
+      fun() ->
+              redbug:start(Trc, Props),
+              link(whereis(redbug)),
+              receive
+                  done -> ok
+              end
+      end).

@@ -1,1 +1,2 @@
+-define(PRINT(Fmt), io:format(Fmt)).
 -define(PRINT(Fmt, Args), io:format(Fmt, Args)).
