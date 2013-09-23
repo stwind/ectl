@@ -34,7 +34,7 @@ cmd() ->
       [
        ?OPT_OUTPUT
       ]},
-     {"mem", [node, '...'], ectl_mem,
+     {"sysinfo", [node, '...'], ectl_sysinfo,
       [
        ?OPT_OUTPUT
       ]},
