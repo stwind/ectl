@@ -30,6 +30,14 @@ vsn() ->
 
 cmd() ->
     [
+     {"ping", [node, '...'], ectl_ping,
+      [
+       ?OPT_OUTPUT
+      ]},
+     {"sysinfo", [node, '...'], ectl_sysinfo,
+      [
+       ?OPT_OUTPUT
+      ]},
      {"redbug", [node, trace_pattern], ectl_redbug,
       [
        {cookie, $c, "cookie", string, "Erlang cookie to use"},

@@ -1,1 +1,1 @@
--define(PRINT(Fmt, Args), io:format(Fmt, Args)).
+-include_lib("ecli/include/ecli.hrl").
