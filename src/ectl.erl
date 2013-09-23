@@ -32,16 +32,17 @@ cmd() ->
     [
      {"ping", [node, '...'], ectl_ping,
       [
-       opt(cookie)
+       ?OPT_OUTPUT
+      ]},
+     {"mem", [node, '...'], ectl_mem,
+      [
+       ?OPT_OUTPUT
       ]},
      {"redbug", [node, trace_pattern], ectl_redbug,
       [
-       opt(cookie),
+       {cookie, $c, "cookie", string, "Erlang cookie to use"},
        {time, $t, "time", {integer, 15000}, "stop trace after this many ms"},
        {msgs, $m, "msgs", {integer, 10}, "stop trace after this many msgs"},
        {proc, $p, "proc", {string, "all"}, "Erlang process all|pid()|atom(RegName)"}
       ]}
     ].
-
-opt(cookie) ->
-    {cookie, $c, "cookie", string, "Erlang cookie to use"}.
