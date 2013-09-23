@@ -13,8 +13,11 @@ run(Opts) ->
                 fun({N, _}, R) -> 
                         [{node, N}, {result, R}] 
                 end, ectl_util:get_nodes(Opts)),
-    ecli:output(Results, [], Opts).
+    ecli:output(Results, [heads()], Opts).
 
 %% ===================================================================
 %% Private
 %% ===================================================================
+
+heads() ->
+    {heads, [node, result]}.

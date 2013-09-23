@@ -10,10 +10,8 @@
 
 run(Opts) ->
     Results = ecli:each_node(
-                fun({N, _}, pong) -> 
-                        get_sysinfo(N);
-                   ({N, _}, pang) ->
-                        [{node, N}]
+                fun({N, _}, pong) -> get_sysinfo(N);
+                   ({N, _}, pang) -> [{node, N}]
                 end, ectl_util:get_nodes(Opts)),
     ecli:output(Results, [heads(),columns()], Opts).
 
