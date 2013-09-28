@@ -3,6 +3,7 @@
 -export([get_nodes/1]).
 -export([load_recon/1]).
 -export([arg/2]).
+-export([to_str/1]).
 
 -include("ectl.hrl").
 
@@ -33,9 +34,21 @@ arg(node, Opts) ->
 arg(cookie, Opts) ->
     l2a(ecli:opt(cookie, Opts, "")).
 
+to_str(Val) when is_atom(Val) ->
+    atom_to_list(Val);
+to_str(Val) when is_integer(Val) ->
+    integer_to_list(Val);
+to_str(Val) when is_binary(Val) ->
+    binary_to_list(Val);
+to_str(Term) ->
+    oneline(io_lib:format("~p",[Term])).
+
 %% ===================================================================
 %% Private
 %% ===================================================================
 
 l2a(V) -> list_to_atom(V).
 l2i(V) -> list_to_integer(V).
+
+oneline(Str) ->
+    re:replace(Str, "\n\s*", "", [global,{return,list}]).
