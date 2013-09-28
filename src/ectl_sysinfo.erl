@@ -23,7 +23,7 @@ run(Opts) ->
 
 print_res(Res) ->
     Res1 = [short(R1 ++ R2, []) || {R1, R2} <- Res],
-    ecli_tbl:print(Res1, []).
+    ecli_tbl:print(Res1, [{columns, cols(Res1)}]).
 
 short([{process_count, V} | Rest], Acc) ->
     short(Rest, [{proc_cnt, V} | Acc]);
@@ -56,25 +56,5 @@ short([_ | Rest], Acc) ->
 short([], Acc) ->
     Acc.
 
-%heads() ->
-    %{heads, [node,num_procs,mem_total,mem_procs,mem_bin,mem_sys]}.
-
-%columns() ->
-    %{columns, [left,right,right,right,right,right]}.
-
-%get_sysinfo(Node) ->
-    %[{node, Node}, get_proc_count(Node)] ++
-    %get_mem(Node).
-
-%get_mem(Node) ->
-    %Memory = rpc:call(Node, erlang, memory, []),
-    %[
-     %{mem_total, proplists:get_value(total, Memory)},
-     %{mem_procs, proplists:get_value(processes, Memory)},
-     %{mem_bin, proplists:get_value(binary, Memory)},
-     %{mem_sys, proplists:get_value(system, Memory)}
-    %].
-
-%get_proc_count(Node) ->
-    %Count = rpc:call(Node, erlang, system_info, [process_count]),
-    %{num_procs, Count}.
+cols([R | _]) ->
+    [right || _ <- R].
