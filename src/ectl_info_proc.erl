@@ -14,7 +14,12 @@ run(Opts) ->
     {P1,P2,P3} = ectl_lib:arg(pid, Opts),
     ectl_lib:load_recon(Node),
     Info = rpc:call(Node, recon, info, [P1,P2,P3]),
-    print_info(Info).
+    case proplists:get_value(meta, Info) of
+        undefined ->
+            ?PRINT("proc not found");
+        _ ->
+            print_info(Info)
+    end.
 
 %% ===================================================================
 %% Private
@@ -29,6 +34,9 @@ print_info([{location, Vals} | Rest]) ->
     print_info(Rest);
 print_info([{memory_used, Vals} | Rest]) ->
     print_mem(Vals),
+    print_info(Rest);
+print_info([{work, Vals} | Rest]) ->
+    print_work(Vals),
     print_info(Rest);
 print_info([_ | Rest]) ->
     print_info(Rest);
@@ -65,6 +73,10 @@ print_mem(Vals) ->
 print_gc(Gc) ->
     ?PRINT("============= garbage collection =============~n"),
     ecli_tbl:print(Gc, []).
+
+print_work(Vals) ->
+    ?PRINT("============= works =============~n"),
+    ecli_tbl:print(Vals,[]).
 
 normalize(Vals) ->
     [{K, ectl_lib:to_str(V)} || {K, V} <- Vals].
