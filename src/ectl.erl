@@ -32,12 +32,14 @@ cmd() ->
     [
      {"ping", [node, '...'], ectl_ping,
       [
-       ?OPT_OUTPUT
+       opt(cookie), ?OPT_OUTPUT
       ]},
 
-     {"sysinfo", [node, '...'], ectl_sysinfo,
+     {"sysinfo", [node], ectl_sysinfo,
       [
-       ?OPT_OUTPUT
+       opt(cookie), ?OPT_OUTPUT,
+       {num, $n, "num", {integer, 5}, "N time to sample stats"},
+       {interval, $i, "interval", {integer, 1}, "wait time for each sample"}
       ]},
 
      {"proc_info", [node, pid], ectl_info_proc,

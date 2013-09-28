@@ -10,13 +10,15 @@
 %% Public
 %% ===================================================================
 
-load_recon(Node) ->
+load_recon(Nodes) when is_list(Nodes) ->
+    [load_recon(N) || N <- Nodes];
+load_recon(Node) when is_atom(Node) ->
     [recon:remote_load(Node,M) || M <- [recon,recon_lib,recon_alloc]].
 
 get_nodes(Opts) ->
     Node = ecli:binding(node, Opts),
-    Nodes = ecli:binding(others, Opts),
-    parse_nodes([Node | Nodes]).
+    Nodes = ecli:binding(others, Opts, []),
+    [l2a(Node) | [l2a(N) || N <- Nodes]].
 
 arg(pid, Opts) ->
     Pid = ecli:binding(pid, Opts),
@@ -27,9 +29,9 @@ arg(pid, Opts) ->
             ?HALT("invalid pid ~p~n", [Pid])
     end;
 arg(node, Opts) ->
-    l2a(ecli:binding(node, Opts));
+    l2a(ecli:binding(node, Opts, ""));
 arg(cookie, Opts) ->
-    l2a(ecli:opt(cookie, Opts)).
+    l2a(ecli:opt(cookie, Opts, "")).
 
 %% ===================================================================
 %% Private
@@ -37,14 +39,3 @@ arg(cookie, Opts) ->
 
 l2a(V) -> list_to_atom(V).
 l2i(V) -> list_to_integer(V).
-
-parse_nodes(Nodes) ->
-    [parse_node(N) || N <- Nodes].
-
-parse_node(Node) ->
-    case string:tokens(Node, ":") of
-        [Name, Cookie] ->
-            {l2a(Name), l2a(Cookie)};
-        _ ->
-            ?HALT("invalid node ~p~n", [Node])
-    end.
