@@ -42,6 +42,11 @@ cmd() ->
        {interval, $i, "interval", {integer, 1}, "wait time for each sample"}
       ]},
 
+     {"sysinfos", [node, '...'], ectl_sysinfos,
+      [
+       opt(cookie), ?OPT_OUTPUT
+      ]},
+
      {"proc_info", [node, pid], ectl_info_proc,
       [
        opt(cookie)
