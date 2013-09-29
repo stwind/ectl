@@ -21,7 +21,7 @@ run(Opts) ->
 
 print_res(Results) ->
     Res1 = [short(R1 ++ R2, []) || [{R1, R2}] <- Results],
-    ecli_tbl:print(Res1, [{columns, cols(Res1)}]).
+    ecli_tbl:print(Res1, [{columns, cols(Res1)},compact]).
 
 short([{process_count, V} | Rest], Acc) ->
     short(Rest, [{proc_cnt, V} | Acc]);
