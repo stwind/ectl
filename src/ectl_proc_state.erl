@@ -9,9 +9,8 @@
 %% ===================================================================
 
 run(Opts) ->
+    ecli:start_node(ectl_lib:arg(cookie, Opts)),
     Node = ectl_lib:arg(node, Opts),
-    Cookie = ectl_lib:arg(cookie, Opts),
-    {ok, _} = ecli:connect_node(Node, Cookie), 
     ectl_lib:load_recon(Node),
     Pid = ectl_lib:arg(pid, Opts),
     Info = rpc:call(Node, recon, get_state, [Pid]),
