@@ -32,17 +32,63 @@ cmd() ->
     [
      {"ping", [node, '...'], ectl_ping,
       [
-       ?OPT_OUTPUT
+       opt(cookie), ?OPT_OUTPUT
       ]},
-     {"sysinfo", [node, '...'], ectl_sysinfo,
+
+     {"sysinfo", [node], ectl_sysinfo,
       [
-       ?OPT_OUTPUT
+       opt(cookie), ?OPT_OUTPUT,
+       {num, $n, "num", {integer, 5}, "N time to sample stats"},
+       {interval, $i, "interval", {integer, 1}, "wait time for each sample"}
       ]},
+
+     {"sysinfos", [node, '...'], ectl_sysinfos,
+      [
+       opt(cookie), ?OPT_OUTPUT
+      ]},
+
+     {"proc_info", [node, pid], ectl_info_proc,
+      [
+       opt(cookie)
+      ]},
+
+     %{"port_info", [node, port], ectl_info_port,
+      %[
+       %opt(cookie)
+      %]},
+     %
+     {"proc_hog", [node, attr], ectl_hog_proc,
+      [
+       opt(cookie),
+       {num, $n, "num", {integer, 10}, "number of results"}
+      ]},
+
+     {"port_hog", [node, attr], ectl_hog_port,
+      [
+       opt(cookie)
+      ]},
+
+     {"proc_win", [node], ectl_win_proc, 
+      [
+       opt(cookie),
+       {time, $t, "time", {integer, 10000}, "seconds to sample"},
+       {num, $n, "num", {integer, 10}, "number of results"},
+       {attr, $a, "attr", {string, "memory"}, "attritube to sample"}
+      ]},
+
+     {"proc_state", [node, pid], ectl_proc_state, 
+      [ 
+       opt(cookie)
+      ]},
+
      {"redbug", [node, trace_pattern], ectl_redbug,
       [
-       {cookie, $c, "cookie", string, "Erlang cookie to use"},
+       opt(cookie),
        {time, $t, "time", {integer, 15000}, "stop trace after this many ms"},
        {msgs, $m, "msgs", {integer, 10}, "stop trace after this many msgs"},
        {proc, $p, "proc", {string, "all"}, "Erlang process all|pid()|atom(RegName)"}
       ]}
     ].
+
+opt(cookie) ->
+    {cookie, $c, "cookie", string, "Erlang cookie to use"}.

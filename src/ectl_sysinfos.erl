@@ -1,4 +1,4 @@
--module(ectl_sysinfo).
+-module(ectl_sysinfos).
 
 -export([run/1]).
 
@@ -10,19 +10,17 @@
 
 run(Opts) ->
     ecli:start_node(ectl_lib:arg(cookie, Opts)),
-    Node = list_to_atom(ecli:binding(node, Opts)),
-    Num = ecli:opt(num, Opts),
-    Interval = ecli:opt(interval, Opts) * 1000,
-    ectl_lib:load_recon(Node),
-    Res = rpc:call(Node, recon, node_stats_list, [Num, Interval], 10000),
-    print_res(Res).
+    Nodes = ectl_lib:get_nodes(Opts),
+    ectl_lib:load_recon(Nodes),
+    {Results, _} = rpc:multicall(Nodes, recon, node_stats_list, [1, 1000], 10000),
+    print_res(Results).
 
 %% ===================================================================
 %% Private
 %% ===================================================================
 
-print_res(Res) ->
-    Res1 = [short(R1 ++ R2, []) || {R1, R2} <- Res],
+print_res(Results) ->
+    Res1 = [short(R1 ++ R2, []) || [{R1, R2}] <- Results],
     ecli_tbl:print(Res1, [{columns, cols(Res1)},compact]).
 
 short([{process_count, V} | Rest], Acc) ->

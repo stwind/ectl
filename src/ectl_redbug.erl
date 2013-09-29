@@ -9,8 +9,8 @@
 %% ===================================================================
 
 run(Opts) ->
+    ecli:start_node(ectl_lib:arg(cookie, Opts)),
     Target = target(Opts),
-    ecli:connect_node(Target, cookie(Opts)),
     ecli:wait_for(redbug_start(
                     trc(ecli:binding(trace_pattern, Opts)),
                     [
@@ -28,9 +28,6 @@ run(Opts) ->
 trc("send") -> send;
 trc("receive") -> 'receive';
 trc(RTP) -> RTP.
-
-cookie(Opts) ->
-    list_to_atom(ecli:opt(cookie, Opts, "undef_cookie")).
 
 proc(Opts) ->
     prc(ecli:opt(procs, Opts, "all")).
