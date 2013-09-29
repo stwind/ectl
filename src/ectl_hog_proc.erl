@@ -26,7 +26,8 @@ print_info(Info) ->
     ecli_tbl:print(Info1, 
                    [
                     {heads,[pid,name,val,current_function,initial_call]},
-                    {columns, [left,left,right,left,left]}
+                    {columns, [left,left,right,left,left]},
+                    compact
                    ]).
 
 to_row({Pid, Val, [Name | Location]}) when is_atom(Name) ->
